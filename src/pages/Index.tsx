@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Sidebar } from "@/components/email/Sidebar";
 import { EmailList } from "@/components/email/EmailList";
@@ -32,6 +31,11 @@ const Index = () => {
     setSelectedEmail(null);
   };
 
+  const handleCategoryFilter = (category: string) => {
+    setSelectedCategory(category);
+    setSidebarOpen(false); // Close sidebar on mobile after filtering
+  };
+
   return (
     <ThemeProvider>
       <AuthGuard>
@@ -45,9 +49,8 @@ const Index = () => {
           />
           
           <div className="flex-1 flex overflow-hidden">
-            {/* Sidebar */}
-            {currentView === "inbox" && (
-              <div className={`
+            
+            <div className={`
                 ${isMobile ? 'fixed inset-y-0 left-0 z-50' : 'relative'} 
                 ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'}
                 transition-transform duration-300 ease-in-out
@@ -61,9 +64,9 @@ const Index = () => {
                   onToggleCollapse={() => setSidebarCollapsed(!sidebarCollapsed)}
                 />
               </div>
-            )}
+            
 
-            {/* Overlay for mobile */}
+            
             {isMobile && sidebarOpen && currentView === "inbox" && (
               <div 
                 className="fixed inset-0 bg-black bg-opacity-50 z-40"
@@ -95,7 +98,7 @@ const Index = () => {
                   {/* Email View */}
                   {selectedEmail && (
                     <div className={`
-                      ${isMobile ? 'fixed inset-0 z-30 bg-white' : 'flex-1'}
+                      ${isMobile ? 'fixed inset-0 z-30 bg-white dark:bg-gray-800' : 'flex-1'}
                     `}>
                       <EmailView 
                         email={selectedEmail}
@@ -110,7 +113,12 @@ const Index = () => {
           </div>
 
           {/* Floating AI Assistant - only show in inbox view */}
-          {currentView === "inbox" && <FloatingAI selectedEmail={selectedEmail} />}
+          {currentView === "inbox" && (
+            <FloatingAI 
+              selectedEmail={selectedEmail} 
+              onCategoryFilter={handleCategoryFilter}
+            />
+          )}
 
           {/* Compose Modal */}
           {showCompose && (
