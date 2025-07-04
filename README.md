@@ -53,7 +53,7 @@ PersonaMail AI is a smart, adaptive email client that personalizes communication
 
 ## 🛠 Tech Stack
 
-- **Frontend**: React, TypeScript, Tailwind CSS, Shadcn UI
+- **Frontend**: Next.js, TypeScript, Tailwind CSS, Shadcn UI
 - **Authentication**: Better Auth with Google OAuth (in progress)
 - **AI/LLM**: Gemini 2.0 Flash for intelligent features
 - **Database**: Supabase (PostgreSQL)

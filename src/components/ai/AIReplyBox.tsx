@@ -1,6 +1,5 @@
-
 import { useState, useEffect } from "react";
-import { Send, RefreshCw, Settings, X, Sparkles, Loader2 } from "lucide-react";
+import { Send, RefreshCw, Settings, X, Sparkles, Loader2, AlertCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -20,7 +19,7 @@ export const AIReplyBox = ({ originalEmail, onClose }: AIReplyBoxProps) => {
   const [selectedPersona, setSelectedPersona] = useState("default");
   const [isGenerating, setIsGenerating] = useState(false);
   const [aiGenerated, setAiGenerated] = useState(false);
-  const { canUseAIReply, trackAIReply, dailyReplies, maxFreeReplies } = useUsageTracking();
+  const { canUseAIReply, trackAIReply, dailyReplies, maxFreeReplies, customer } = useUsageTracking();
   const { toast } = useToast();
 
   // Generate suggested reply on component mount
@@ -113,6 +112,27 @@ export const AIReplyBox = ({ originalEmail, onClose }: AIReplyBoxProps) => {
         <Button variant="ghost" size="icon" onClick={onClose}>
           <X className="h-4 w-4" />
         </Button>
+      </div>
+
+      {/* Dynamic Pricing & Upgrade Banner */}
+      <div className="mt-2 mb-2">
+        <div className="flex flex-col items-center justify-center p-3 rounded bg-blue-100 border border-blue-200 text-blue-900 text-sm">
+          <div>
+            {`Free AI replies: ${maxFreeReplies - dailyReplies > 0 ? maxFreeReplies - dailyReplies : 0} / ${maxFreeReplies} remaining today`}
+          </div>
+          {!canUseAIReply && (
+            <div className="mt-2 flex flex-col items-center">
+              <div className="flex items-center text-red-600 font-semibold">
+                <AlertCircle className="h-4 w-4 mr-1" />
+                <span>You've reached your daily free AI reply limit.</span>
+              </div>
+              <div className="mt-1 text-blue-900">Upgrade to Premium for unlimited AI replies!</div>
+              <Button className="mt-2 bg-yellow-400 hover:bg-yellow-500 text-black font-bold" size="sm" onClick={() => window.open('https://buy.stripe.com/test_upgrade_link', '_blank')}>
+                Upgrade to Premium ($10/month)
+              </Button>
+            </div>
+          )}
+        </div>
       </div>
 
       <div className="flex items-center space-x-4">

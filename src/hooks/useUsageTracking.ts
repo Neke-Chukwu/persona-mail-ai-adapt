@@ -1,19 +1,19 @@
-
 import { useEffect, useState } from 'react';
-import { useCustomer, allowed, track } from 'autumn-js/react';
+import { useCustomer } from 'autumn-js/react';
 
 export const useUsageTracking = () => {
   const customer = useCustomer();
   const [dailyReplies, setDailyReplies] = useState(0);
   const maxFreeReplies = 10;
 
-  const canUseAIReply = allowed({ featureId: "ai_replies" }) && dailyReplies < maxFreeReplies;
+  const isAllowed = customer?.allowed({ featureId: "messages" });
+  const canUseAIReply = isAllowed && dailyReplies < maxFreeReplies;
 
   const trackAIReply = async () => {
-    if (canUseAIReply) {
-      await track("ai_replies");
-      setDailyReplies(prev => prev + 1);
+    if (customer && typeof customer.track === 'function') {
+      customer.track({ featureId: "messages" });
     }
+    setDailyReplies((prev) => prev + 1);
   };
 
   // Reset daily count at midnight
@@ -34,9 +34,9 @@ export const useUsageTracking = () => {
 
   return {
     canUseAIReply,
-    trackAIReply,
     dailyReplies,
     maxFreeReplies,
+    trackAIReply,
     customer
   };
 };
