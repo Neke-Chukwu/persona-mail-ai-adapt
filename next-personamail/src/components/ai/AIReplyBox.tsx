@@ -1,3 +1,6 @@
+
+'use client';
+
 import { useState, useEffect } from "react";
 import { Send, RefreshCw, Settings, X, Sparkles, Loader2, AlertCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -19,7 +22,7 @@ export const AIReplyBox = ({ originalEmail, onClose }: AIReplyBoxProps) => {
   const [selectedPersona, setSelectedPersona] = useState("default");
   const [isGenerating, setIsGenerating] = useState(false);
   const [aiGenerated, setAiGenerated] = useState(false);
-  const { canUseAIReply, trackAIReply, dailyReplies, maxFreeReplies, customer } = useUsageTracking();
+  const { canUseAIReply, trackAIReply, dailyReplies, maxFreeReplies } = useUsageTracking();
   const { toast } = useToast();
 
   // Generate suggested reply on component mount

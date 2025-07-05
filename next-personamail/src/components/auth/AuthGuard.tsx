@@ -17,7 +17,8 @@ export const AuthGuard = ({ children }: AuthGuardProps) => {
     const checkAuth = async () => {
       try {
         const session = await authClient.getSession();
-        setIsAuthenticated(!!session?.user);
+        // Better Auth returns session data or null
+        setIsAuthenticated(!!session?.data?.user);
       } catch (e) {
         setIsAuthenticated(false);
       } finally {
