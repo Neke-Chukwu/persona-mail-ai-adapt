@@ -1,8 +1,7 @@
-
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   experimental: {
-    appDir: true,
+    // appDir: true, // Removed - not a valid option in Next.js 15
   },
   transpilePackages: ['lucide-react', 'autumn-js'],
   env: {

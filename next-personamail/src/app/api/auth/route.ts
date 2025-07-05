@@ -1,23 +1,22 @@
+import { NextRequest, NextResponse } from 'next/server';
 
-import { betterAuth } from "better-auth";
-import { NextRequest } from "next/server";
+export async function GET(request: NextRequest) {
+  // For now, return a mock session
+  // In a real app, you would validate the session here
+  return NextResponse.json({
+    user: null,
+    session: null,
+    isAuthenticated: false
+  });
+}
 
-export const auth = betterAuth({
-  database: {
-    provider: "sqlite",
-    url: "./sqlite.db",
-  },
-  socialProviders: {
-    google: {
-      clientId: process.env.GOOGLE_CLIENT_ID as string,
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
-      prompt: "select_account",
-      scopes: [
-        "https://www.googleapis.com/auth/gmail.readonly",
-        "https://www.googleapis.com/auth/gmail.send"
-      ],
-    },
-  },
-});
-
-export const { GET, POST } = auth.handler;
+export async function POST(request: NextRequest) {
+  // Handle login requests
+  const body = await request.json();
+  
+  // Mock login response
+  return NextResponse.json({
+    success: true,
+    message: 'Login endpoint - implement actual authentication'
+  });
+}
