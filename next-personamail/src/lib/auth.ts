@@ -1,6 +1,4 @@
-
 import { betterAuth } from "better-auth";
-import { supabaseAdapter } from "better-auth/adapters/supabase";
 
 // Environment validation
 if (!process.env.SUPABASE_URL || !process.env.SUPABASE_SERVICE_ROLE_KEY) {
@@ -16,10 +14,10 @@ if (!process.env.BETTER_AUTH_SECRET) {
 }
 
 export const auth = betterAuth({
-  database: supabaseAdapter({
+  database: {
     url: process.env.SUPABASE_URL,
     secretKey: process.env.SUPABASE_SERVICE_ROLE_KEY, // Use service role key, not anon key
-  }),
+  },
   secret: process.env.BETTER_AUTH_SECRET,
   baseURL: process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000",
   socialProviders: {
