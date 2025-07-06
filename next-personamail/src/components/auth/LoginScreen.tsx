@@ -5,27 +5,29 @@ import { useState } from "react";
 import { Mail, Shield, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { authClient } from "@/lib/auth-client";
+import { signIn } from "@/lib/auth-client";
 
-interface LoginScreenProps {
-  onLogin: (success: boolean) => void;
-}
-
-export const LoginScreen = ({ onLogin }: LoginScreenProps) => {
+export const LoginScreen = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   const handleGoogleLogin = async () => {
     setIsLoading(true);
     try {
-      await authClient.signIn.social({
+      console.log('Initiating Google OAuth...');
+      const result = await signIn.social({
         provider: "google",
         callbackURL: "/",
       });
-      onLogin(true);
-    } catch (e) {
-      console.error("Login error:", e);
+      console.log('Google OAuth result:', result);
+      
+      if (result.error) {
+        console.error('Login failed:', result);
+        setIsLoading(false);
+      }
+      // If successful, the page will redirect automatically
+    } catch (error) {
+      console.error("Login error:", error);
       setIsLoading(false);
-      onLogin(false);
     }
   };
 
