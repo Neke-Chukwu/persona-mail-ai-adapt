@@ -6,6 +6,7 @@ import { Mail, Shield, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { signIn } from "@/lib/auth-client";
+import { toast } from "sonner";
 
 export const LoginScreen = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -14,19 +15,25 @@ export const LoginScreen = () => {
     setIsLoading(true);
     try {
       console.log('Initiating Google OAuth...');
+      
       const result = await signIn.social({
         provider: "google",
         callbackURL: "/",
       });
+      
       console.log('Google OAuth result:', result);
       
       if (result.error) {
-        console.error('Login failed:', result);
+        console.error('Login failed:', result.error);
+        toast.error("Login failed. Please try again.");
         setIsLoading(false);
+      } else {
+        toast.success("Login successful! Redirecting...");
+        // Don't set loading to false here - let the redirect happen
       }
-      // If successful, the page will redirect automatically
     } catch (error) {
       console.error("Login error:", error);
+      toast.error("An unexpected error occurred. Please try again.");
       setIsLoading(false);
     }
   };

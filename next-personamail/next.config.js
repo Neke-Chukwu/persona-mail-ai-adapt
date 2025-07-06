@@ -1,7 +1,8 @@
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   experimental: {
-    // appDir: true, // Removed - not a valid option in Next.js 15
+    serverComponentsExternalPackages: ['better-auth'],
   },
   transpilePackages: ['lucide-react', 'autumn-js'],
   env: {
@@ -11,9 +12,9 @@ const nextConfig = {
     BETTER_AUTH_SECRET: process.env.BETTER_AUTH_SECRET,
     AUTUMN_API_KEY: process.env.AUTUMN_API_KEY,
     NEXT_PUBLIC_TAMBO_API_KEY: process.env.NEXT_PUBLIC_TAMBO_API_KEY,
-    NEXT_PUBLIC_AUTUMN_BACKEND_URL: process.env.NEXT_PUBLIC_AUTUMN_BACKEND_URL,
     SUPABASE_URL: process.env.SUPABASE_URL,
     SUPABASE_ANON_KEY: process.env.SUPABASE_ANON_KEY,
+    SUPABASE_SERVICE_ROLE_KEY: process.env.SUPABASE_SERVICE_ROLE_KEY,
     RESEND_API_KEY: process.env.RESEND_API_KEY,
     FIRECRAWL_API_KEY: process.env.FIRECRAWL_API_KEY,
   }
